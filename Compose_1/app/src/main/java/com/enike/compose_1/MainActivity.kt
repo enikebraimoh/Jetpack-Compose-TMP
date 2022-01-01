@@ -1,5 +1,6 @@
 package com.enike.compose_1
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -64,10 +65,15 @@ fun messageCard(name: Message) {
     }
 }
 
-@Preview(showBackground = true)
+
+@Preview(name = "light mode")
+@Preview(showBackground = true,
+uiMode = Configuration.UI_MODE_NIGHT_YES,
+name = "Dark mode")
 @Composable
 fun PreviewMessageCard() {
     Compose_1Theme {
         messageCard(Message("Enike", "Jetpack Compose"))
     }
 }
+
