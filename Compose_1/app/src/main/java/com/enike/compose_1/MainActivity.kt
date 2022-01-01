@@ -7,6 +7,8 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -34,7 +36,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun messageCard(name: Message) {
+fun messageCard(data: Message) {
     Row(modifier = Modifier.padding(all = 10.dp)) {
         Image(
             painter = painterResource(id = R.drawable.ic_launcher_background),
@@ -47,7 +49,7 @@ fun messageCard(name: Message) {
         Spacer(modifier = Modifier.width(10.dp))
         Column() {
             Text(
-                text = name.user,
+                text = data.user,
                 style = MaterialTheme.typography.subtitle2,
                 color = MaterialTheme.colors.secondaryVariant
             )
@@ -56,7 +58,7 @@ fun messageCard(name: Message) {
 
             Surface(shape = MaterialTheme.shapes.medium, elevation = 1.dp) {
                 Text(
-                    text = name.Message,
+                    text = data.Message,
                     Modifier.padding(all = 5.dp),
                     style = MaterialTheme.typography.body1
                 )
@@ -65,15 +67,32 @@ fun messageCard(name: Message) {
     }
 }
 
+@Composable
+fun Conversation (messages : List<Message>){
+    LazyColumn{
+        items(messages){ message ->
+            messageCard(data = message)
+        }
+    }
+}
 
-@Preview(name = "light mode")
+
 @Preview(showBackground = true,
-uiMode = Configuration.UI_MODE_NIGHT_YES,
 name = "Dark mode")
 @Composable
 fun PreviewMessageCard() {
     Compose_1Theme {
         messageCard(Message("Enike", "Jetpack Compose"))
+    }
+}
+
+
+@Preview(showBackground = true,
+    name = "Dark mode")
+@Composable
+fun PreviewConversation() {
+    Compose_1Theme {
+       Conversation(messages = SampleData.conversationSample)
     }
 }
 
