@@ -65,7 +65,7 @@ fun messageCard(data: Message) {
                 color = MaterialTheme.colors.secondaryVariant
             )
 
-            Spacer(modifier = Modifier.width(10.dp))
+            Spacer(modifier = Modifier.width(5.dp))
 
             Surface(
                 shape = MaterialTheme.shapes.medium,
@@ -77,7 +77,7 @@ fun messageCard(data: Message) {
             ) {
                 Text(
                     text = data.Message,
-                    Modifier.padding(all = 5.dp),
+                    Modifier.padding(all = 1.dp),
                     style = MaterialTheme.typography.body1,
                     maxLines = if (isExpanded) Int.MAX_VALUE else 1
                 )
