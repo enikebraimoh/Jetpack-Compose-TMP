@@ -3,9 +3,15 @@ package com.adashi.compose_2
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,11 +33,20 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun ShowOnBoardingScreen() {
+fun App() {
+    var shouldShowOnboarding by rememberSaveable { mutableStateOf(true) }
 
-    //var shouldShowOnboarding by remember { mutableStateOf(true) }
+    if (shouldShowOnboarding) {
+        ShowOnBoardingScreen { shouldShowOnboarding = false }
+    } else {
+        Greet()
+    }
 
-    Surface() {
+}
+
+@Composable
+fun ShowOnBoardingScreen(onContinueClicked: () -> Unit) {
+    Surface {
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -39,11 +54,10 @@ fun ShowOnBoardingScreen() {
         ) {
             Text(text = "Welcome to the Basics Codelab!")
             Button(
-                onClick = {  },
+                onClick = { onContinueClicked() },
                 modifier = Modifier.padding(all = 24.dp)
             ) {
                 Text(text = "Contunue")
-
             }
 
         }
@@ -52,15 +66,10 @@ fun ShowOnBoardingScreen() {
 }
 
 @Composable
-fun App() {
-    Greet()
-}
-
-@Composable
-fun Greet(names: List<String> = listOf("World", "Compose")) {
-    Column(modifier = Modifier.padding(vertical = 4.dp)) {
-        for (name in names) {
-            Greeting(name = name)
+fun Greet(names: List<String> = List(100) { "$it" }) {
+    LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
+        items(items = names) { item ->
+            Greeting(item)
         }
     }
 }
@@ -68,8 +77,13 @@ fun Greet(names: List<String> = listOf("World", "Compose")) {
 @Composable
 fun Greeting(name: String) {
     val expanded = remember { mutableStateOf(false) }
-
-    val extrapadding = if (expanded.value) 50.dp else 0.dp
+    val extrapadding by animateDpAsState(
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        ),
+        targetValue = if (expanded.value) 50.dp else 0.dp
+    )
 
     Surface(
         color = MaterialTheme.colors.primary,
@@ -83,7 +97,7 @@ fun Greeting(name: String) {
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(bottom = extrapadding)
+                    .padding(bottom = extrapadding.coerceAtLeast(0.dp))
             ) {
                 Text(text = "Hello,")
                 Text(text = name)
@@ -95,7 +109,7 @@ fun Greeting(name: String) {
     }
 }
 
-@Preview(showBackground = true, widthDp = 300)
+@Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     Compose_2Theme {
@@ -107,6 +121,6 @@ fun DefaultPreview() {
 @Composable
 fun PreviewOnBoarding() {
     Compose_2Theme {
-        ShowOnBoardingScreen()
+        Greet()
     }
 }
