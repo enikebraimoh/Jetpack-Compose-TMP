@@ -97,7 +97,6 @@ fun CardContent(name: String) {
 
     Row(
         modifier = Modifier
-            .fillMaxWidth()
             .animateContentSize(
                 animationSpec = spring(
                     dampingRatio = Spring.DampingRatioMediumBouncy,
