@@ -37,6 +37,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
+
 @Composable
 fun Greeting(name: String) {
     Text(text = "Hello $name!")
@@ -51,7 +53,6 @@ fun StaggeredGrid(
 
     val rowWidths = IntArray(rows) { 0 }
     val rowHeights = IntArray(rows) { 0 }
-
 
     Layout(modifier = modifier, content = content) { measurables, constraints ->
 
