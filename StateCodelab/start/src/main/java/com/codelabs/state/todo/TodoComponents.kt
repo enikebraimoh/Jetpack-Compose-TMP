@@ -71,6 +71,7 @@ import androidx.compose.ui.unit.dp
  * @param modifier modifier for this element
  * @param visible (state) if the icon should be shown
  */
+
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AnimatedIconRow(
