@@ -49,7 +49,7 @@ fun TodoScreen(
 ) {
     Column {
         TodoItemInputBackground(elevate = true, modifier = Modifier.fillMaxWidth()) {
-            TodoItemInput(onItemComplete = onAddItem)
+            TodoItemEnteryInput(onItemComplete = onAddItem)
         }
 
         // For quick testing, a random item generator button
@@ -96,7 +96,7 @@ fun TodoRow(todo: TodoItem, onItemClicked: (TodoItem) -> Unit, modifier: Modifie
 fun TodoInputTextField(text: String, onTextChange: (String) -> Unit, modifier: Modifier) = TodoInputText(text, onTextChange, modifier)
 
 @Composable
-fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
+fun TodoItemEnteryInput(onItemComplete: (TodoItem) -> Unit) {
     // onItemComplete is an event will fire when an item is completed by the user
     val (text, setText) = remember { mutableStateOf("") }
     val (icon, setIcon) = remember { mutableStateOf(TodoIcon.Default)}
@@ -136,6 +136,42 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
     }
 }
 
+@Composable
+fun TodoItemInput(text : String,
+                  onTextChange: (String) -> Unit,
+                  icon: TodoIcon,
+                  onIconChange : (TodoIcon) -> Unit,
+                  iconVisibility : Boolean,
+                  submit: () -> Unit) {
+    Column {
+        Row(
+            Modifier
+                .padding(horizontal = 16.dp)
+                .padding(top = 16.dp)
+        ) {
+            TodoInputText(
+                text = text,
+                onTextChange = onTextChange,
+                Modifier
+                    .weight(1f)
+                    .padding(end = 8.dp),
+                onImeAction = submit
+            )
+            TodoEditButton(
+                onClick = { submit },
+                text = "Add",
+                modifier = Modifier.align(Alignment.CenterVertically),
+                enabled = text.isNotBlank()
+            )
+        }
+        if (iconVisibility) {
+            AnimatedIconRow(icon, onIconChange, Modifier.padding(top = 8.dp))
+        } else {
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+    }
+}
+
 
 private fun randomTint(): Float {
     return Random.nextFloat().coerceIn(0.3f, 0.9f)
@@ -163,4 +199,4 @@ fun PreviewTodoRow() {
 
 @Preview
 @Composable
-fun PreviewTodoItemInput() = TodoItemInput(onItemComplete = { })
+fun PreviewTodoItemInput() = TodoItemEnteryInput(onItemComplete = { })
