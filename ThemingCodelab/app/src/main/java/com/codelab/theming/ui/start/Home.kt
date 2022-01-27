@@ -99,7 +99,7 @@ fun Header(
     modifier: Modifier = Modifier
 ) {
    Surface(
-       modifier = Modifier,
+       modifier = Modifier.semantics { heading() },
        color = MaterialTheme.colors.onSurface.copy(0.1f),
        contentColor = MaterialTheme.colors.primary
    ) {
