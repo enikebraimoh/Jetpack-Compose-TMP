@@ -8,4 +8,3 @@ val Red900 = Color(0xffc20029)
 
 val Red200 = Color(0xfff297a2)
 val Red300 = Color(0xffea6d7e)
-
