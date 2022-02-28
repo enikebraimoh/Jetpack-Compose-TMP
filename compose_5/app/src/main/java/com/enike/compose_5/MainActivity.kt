@@ -3,11 +3,16 @@ package com.enike.compose_5
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.enike.compose_5.ui.theme.CantorCirclePatternComposable
 import com.enike.compose_5.ui.theme.Compose_5Theme
 
 class MainActivity : ComponentActivity() {
@@ -17,7 +22,7 @@ class MainActivity : ComponentActivity() {
             Compose_5Theme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+                    CantorCirclePatternComposable(modifier = Modifier.fillMaxSize())
                 }
             }
         }
@@ -33,6 +38,6 @@ fun Greeting(name: String) {
 @Composable
 fun DefaultPreview() {
     Compose_5Theme {
-        Greeting("Android")
+        CantorCirclePatternComposable(modifier = Modifier.fillMaxSize())
     }
 }
