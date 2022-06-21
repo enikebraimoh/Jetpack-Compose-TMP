@@ -38,7 +38,6 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
-    @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -54,34 +53,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-
-@Composable
-fun Gesture() {
-    val offset = remember { Animatable(Offset(0f, 0f), Offset.VectorConverter) }
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .pointerInput(Unit) {
-                coroutineScope {
-                    while (true) {
-                        // Detect a tap event and obtain its position.
-                        val position = awaitPointerEventScope {
-                            awaitFirstDown().position
-                        }
-                        launch {
-                            // Animate to the tap position.
-                            offset.animateTo(position)
-                        }
-                    }
-                }
-            }
-    ) {
-        Surface(modifier = Modifier.offset { offset.value.toIntOffset() }.size(50.dp), color = Color.Gray, shape = RoundedCornerShape(20.dp)){}
-    }
-}
-
-private fun Offset.toIntOffset() = IntOffset(x.roundToInt(), y.roundToInt())
 
 
 @Composable
