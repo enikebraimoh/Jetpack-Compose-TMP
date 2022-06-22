@@ -51,19 +51,32 @@ import androidx.compose.ui.unit.dp
 import kotlin.math.absoluteValue
 
 @Composable
-fun FavButton(state: State<Dp>,cornerRadius : State<Int> ,clicked: () -> Unit) {
-    Log.d("CornerRadiusValue",cornerRadius.value.toString())
+fun FavButton(
+    state: ButtonState,
+    buttonWidth: State<Dp>,
+    cornerRadius: State<Int>,
+    backgroundColor: State<Color>,
+    contentColor: State<Color>,
+    textOpacity: State<Float>,
+    iconOpacity: State<Float>,
+    heartSize: State<Dp>,
+    idealHeartSize : State<Dp>,
+    clicked: () -> Unit,
+) {
     Button(
         border = BorderStroke(1.dp, MaterialTheme.colors.primary),
         shape = RoundedCornerShape(cornerRadius.value.absoluteValue),
         elevation = ButtonDefaults.elevation(0.dp),
+        colors = ButtonDefaults.buttonColors(
+            backgroundColor = backgroundColor.value
+        ),
         modifier = Modifier
-            .size(state.value, 60.dp)
+            .size(buttonWidth.value, 60.dp)
             .background(Color.White),
         onClick = {
             clicked()
         }
     ) {
-        ButtonContent()
+        ButtonContent(state, contentColor, textOpacity, iconOpacity, heartSize,idealHeartSize)
     }
 }

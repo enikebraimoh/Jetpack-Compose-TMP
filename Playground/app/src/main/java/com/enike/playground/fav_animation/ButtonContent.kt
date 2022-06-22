@@ -35,6 +35,7 @@
 package com.enike.playground.fav_animation
 
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -43,29 +44,53 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun ButtonContent() {
+fun ButtonContent(
+    state: ButtonState,
+    contentColor: State<Color>,
+    textOpacity: State<Float>,
+    iconOpacity: State<Float>,
+    heartSize: State<Dp>,
+    idealHeartSize : State<Dp>,
+) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Column(
-            Modifier.width(24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+
+        if (state == ButtonState.IDLE) {
+            Column(
+                Modifier.width(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Icon(
+                    imageVector = Icons.Default.FavoriteBorder,
+                    tint = contentColor.value.copy(alpha = textOpacity.value),
+                    modifier = Modifier.size(idealHeartSize.value),
+                    contentDescription = ""
+                )
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+
+            Text(
+                "ADD TO FAVORITES!",
+                color = contentColor.value.copy(alpha = textOpacity.value),
+                softWrap = false,
+            )
+        } else {
             Icon(
-                Icons.Default.FavoriteBorder,
-                modifier = Modifier.size(24.dp),
+                Icons.Default.Favorite,
+                tint = contentColor.value.copy(alpha = iconOpacity.value),
+                modifier = Modifier.size(heartSize.value),
                 contentDescription = ""
             )
         }
-        Spacer(modifier = Modifier.width(16.dp))
-        Text(
-            "ADD TO FAVORITES!",
-            softWrap = false,
-        )
     }
 }
